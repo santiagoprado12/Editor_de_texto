@@ -1,12 +1,31 @@
 from tkinter import *
+from tkinter import filedialog as FileDialog
+from io import open
 
 ruta=""  #La utilizaremos para almacenar la ruta de un fichero
 
 def nuevo():
+    global ruta
     mensaje.set("Nuevo fichero")
-    
+    ruta=""
+    texto.delete(1.0, "end")
+    root.title(ruta+"- Mi editor")
+
 def abrir():
+    global ruta
     mensaje.set("abrir fichero")
+    ruta=FileDialog.askopenfilename(
+        initialdir='.',
+        filetype=(("ficheros de texto","*.txt"),),
+        title="abrir un fichero de texto")
+    if ruta != "":
+        fichero=open(ruta,'r')
+        contenido=fichero.read()
+        texto.delete(1.0, 'end')
+        texto.insert('insert',contenido)
+        fichero.close()
+        root.title(ruta+"- Mi editor")
+
 def guardar():
     mensaje.set("guardar fichero")
 def guardar_como():
